@@ -59,8 +59,10 @@ plugins=(git autojump osx)
 # User configuration
 
 export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin"
+export PYTHONPATH="/Users/melancholymirth/miniconda3/bin/"
+
 # export MANPATH="/usr/local/man:$MANPATH"
-export PATH="/Users/melancholymirth/miniconda3/bin:$PATH"
+#export PATH="/Users/melancholymirth/miniconda3/bin:$PATH"
 source $ZSH/oh-my-zsh.sh
 export LANG="en_US.UTF-8"
 export LC_ALL"=en_US.UTF-8"
@@ -93,15 +95,28 @@ alias vi='vim'
 alias zshconfig="vi ~/.zshrc"
 alias vimconfig="vi ~/.vimrc"
 alias tmuxconfig="vi ~/.tmux.conf"
-alias linuxt="ssh ychu26@linux.ews.illinois.edu"
+alias karaconfig="vi ~/.config/karabiner/karabiner.json"
+alias linux="ssh ychu26@linux.ews.illinois.edu"
 alias linuxx="ssh -Y ychu26@linux.ews.illinois.edu"
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 alias quit="exit"
-alias ipy="ipython notebook"
+#alias jupyter="jupyter notebook"
 alias python2="source activate python2"
-alias python3="source activate python3"
+#alias python3="source activate python3"
+alias load_conda="export PATH='/Users/melancholymirth/miniconda3/bin:$PATH'; jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%"
+alias quit_conda="export PATH='/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin'" 
 alias deactivate="source deactivate"
 alias back='cd $OLDPWD'
+alias zshupdate="source ~/.zshrc"
+alias load_themes='jt -t grade3 -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%'
+alias byword_dir="cd '/Users/melancholymirth/Library/Mobile Documents/N39PJFAFEV~com~metaclassy~byword/Documents/'"
+alias .="open ."
+#jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%
+
+
+
+
+
 #set
 set -o vi
 
