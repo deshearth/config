@@ -72,8 +72,8 @@ set cursorline
 set cursorcolumn
 set hlsearch
 set laststatus=2
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set smartindent
 autocmd FileType python set expandtab
 "autocmd vimenter * NERDTree
@@ -161,3 +161,4 @@ let g:loaded_youcompleteme = 1
 "leader key use
 nnoremap <Leader><Leader>w :w<CR>
 nnoremap <Leader><Leader>q :q<CR>
+nnoremap <Leader><Leader>wq :wq<CR>
