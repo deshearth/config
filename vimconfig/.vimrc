@@ -20,7 +20,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'JamshedVesuna/vim-markdown-preview'
-Plugin 'flazz/vim-colorschemes'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -108,6 +107,16 @@ nnoremap <silent> <F9> :TagbarToggle<CR>
 nnoremap H ^
 nnoremap L $
 
+" vim window split navigation
+nnoremap ∆ <C-W>j
+nnoremap ˚ <C-W>k
+nnoremap ˙ <C-W>h
+nnoremap ¬ <C-W>l
+nnoremap ß <C-W>s
+nnoremap √ <C-W>v
+nnoremap <tab> <C-w>w
+
+"nnoremap <M-h> <C-W>h
 "easy motion
 "trigger key is ;   then followed by hjkl
 map <Leader> <Plug>(easymotion-prefix)
