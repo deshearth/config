@@ -156,9 +156,10 @@ let g:tagbar_width=26						  " Default is 40
 "youcompleteme
 "let g:ycm_python_binary_path = 'python'
 let g:ycm_path_to_python_interpreter = '/usr/bin/python'
-let g:loaded_youcompleteme = 1
+"let g:loaded_youcompleteme = 1
 
 "leader key use
 nnoremap <Leader><Leader>w :w<CR>
 nnoremap <Leader><Leader>q :q<CR>
 nnoremap <Leader><Leader>wq :wq<CR>
+nnoremap <Leader><Leader>s :sh<CR>
