@@ -112,8 +112,8 @@ nmap <script><silent><F4> :call ToggleQuickfixList()<CR>
 nnoremap H ^
 nnoremap L $
 
-nnoremap + <C-f>
-nnoremap - <C-b>
+nnoremap <CR> <C-f>
+nnoremap <BS> <C-b>
 
 nnoremap <leader>t H
 nnoremap <leader>b L
