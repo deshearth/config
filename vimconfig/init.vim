@@ -1,7 +1,6 @@
 "set runtimepath^=~/.vim runtimepath+=~/.vim/after
 "    let &packpath = &runtimepath
 "    source ~/.vimrc
-
 let mapleader = ";"
 noremap \ ;
 set nocompatible
@@ -18,6 +17,7 @@ call dein#add('Shougo/vimproc.vim', {
     \    },
     \ })
 call dein#add('Shougo/unite.vim')
+"call dein#add('roxma/python-support.nvim')
 call dein#add('roxma/nvim-completion-manager')
 call dein#add('roxma/ncm-clang')
 "call dein#add('Shougo/deoplete.nvim')
@@ -25,18 +25,19 @@ if !has('nvim')
   call dein#add('roxma/nvim-yarp')
   call dein#add('roxma/vim-hug-neovim-rpc')
 endif
-let g:deoplete#enable_at_startup = 1
 " and a lot more plugins.....
 call dein#add('flazz/vim-colorschemes')
 call dein#add('scrooloose/nerdtree')
-call dein#add('easymotion/vim-easymotion')
+call dein#add('easymotion/vim-easymotion') 
 call dein#add('jiangmiao/auto-pairs')
 call dein#add('majutsushi/tagbar')
-call dein#add('scrooloose/syntastic')
+"call dein#add('scrooloose/syntastic')
+call dein#add('neomake/neomake')
 call dein#add('tpope/vim-surround')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('JamshedVesuna/vim-markdown-preview')
+call dein#add('milkypostman/vim-togglelist')
 
 call dein#end()
 
@@ -55,7 +56,7 @@ syntax enable
 set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
-"colors molokai
+"colorscheme molokai
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -68,7 +69,7 @@ set ffs=unix,dos,mac
 filetype on
 set wildmenu
 set cursorline
-set cursorcolumn
+"set cursorcolumn
 set hlsearch
 set laststatus=2
 set tabstop=2
@@ -97,12 +98,17 @@ set nomodeline
 imap jk <Esc>
 "nerdtreetoggle
 "press ctrl+t
-map <C-t> :NERDTreeToggle<CR>
+nnoremap <silent><F1> :NERDTreeToggle<CR>
 "tagbar
 "press f9
-nnoremap <silent> <F9> :TagbarToggle<CR>
+nnoremap <silent><F2> :TagbarToggle<CR>
 
-" set H and L to first and last character of line
+"togglelist 
+let g:toggle_list_no_mappings=1
+nmap <script><silent><F3> :call ToggleLocationList()<CR>
+nmap <script><silent><F4> :call ToggleQuickfixList()<CR>
+
+" set H and L to first dnd last character of line
 nnoremap H ^
 nnoremap L $
 
@@ -130,18 +136,64 @@ map <Leader>f <Plug>(easymotion-bd-f)
 let g:EasyMotion_startofline = 0
 let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
-
-
-
-"syntastic checking
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"neomake setup
+"function! MyOnBattery()
+"  return readfile('/sys/class/power_supply/AC/online') == ['0']
+"endfunction
 "
-let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"if MyOnBattery()
+"  call neomake#configure#automake('w')
+"else
+"  call neomake#configure#automake('nw', 1000)
+"endif
+" When writing a buffer.
+call neomake#configure#automake('w')
+" When writing a buffer, and on normal mode changes (after 750ms).
+call neomake#configure#automake('nw', 750)
+" When reading a buffer (after 1s), and when writing.
+call neomake#configure#automake('rw', 1000)
+
+"augroup my_neomake_highlights
+"		au!
+"    autocmd ColorScheme *
+"      \ highlight NeomakeError … |
+"      \ highlight NeomakeWarning …
+"augroup END
+
+"augroup my_neomake_signs
+"    au!
+"    autocmd ColorScheme *
+"        \ highlight NeomakeErrorSign ctermfg=white |
+"        \ highlight NeomakeWarningSign ctermfg=white 
+"augroup END
+hi NeomakeWarningSign ctermfg=227 ctermbg=237
+hi NeomakeErrorSign ctermfg=160 ctermbg=237
+let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_error_sign = {'text': '✖', 'texthl': 'NeomakeErrorSign'}
+		
+"let g:neomake_highlight_lines = 1
+"let g:neomake_highlight_columns = 0
+
+"let g:neomake_open_list = 2
+"syntastic checking
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+""
+"let g:syntastic_always_populate_loc_list = 1
+""let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
+
+
+
+
+
+
+
+
+
 "airline theme
 let g:airline_theme='base16_solarized'          
 "
@@ -151,11 +203,12 @@ let g:tagbar_ctags_bin='/usr/local/bin/ctags' " Proper Ctags locations
 let g:tagbar_width=26						  " Default is 40
 "youcompleteme
 "let g:ycm_path_to_python_interpreter = '/usr/bin/python'
-let g:ycm_register_as_syntastic_checker = 0
 
+"ncm setting
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+set shortmess+=c
 "leader key use
 nnoremap <Leader><Leader>w :w<CR>
 nnoremap <Leader><Leader>q :q<CR>
