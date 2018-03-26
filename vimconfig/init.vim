@@ -117,6 +117,7 @@ nnoremap <BS> <C-b>
 
 nnoremap <leader>t H
 nnoremap <leader>b L
+nnoremap <leader>m M
 
 " vim window split navigation
 nnoremap ∆ <C-W>j
