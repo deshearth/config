@@ -112,6 +112,12 @@ nmap <script><silent><F4> :call ToggleQuickfixList()<CR>
 nnoremap H ^
 nnoremap L $
 
+nnoremap <CR> <C-f>
+nnoremap <BS> <C-b>
+
+nnoremap <leader>t H
+nnoremap <leader>b L
+
 " vim window split navigation
 nnoremap ∆ <C-W>j
 nnoremap ˚ <C-W>k
