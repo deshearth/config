@@ -1,6 +1,7 @@
 "set runtimepath^=~/.vim runtimepath+=~/.vim/after
 "    let &packpath = &runtimepath
 "    source ~/.vimrc
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let mapleader = ";"
 noremap \ ;
 set nocompatible
@@ -38,6 +39,8 @@ call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('JamshedVesuna/vim-markdown-preview')
 call dein#add('milkypostman/vim-togglelist')
+call dein#add('tpope/vim-repeat')
+call dein#add('morhetz/gruvbox')
 
 call dein#end()
 
@@ -54,10 +57,10 @@ set number
 " Enable syntax highlighting
 syntax enable
 set background=dark
-let g:solarized_termcolors=256
-colorscheme solarized
+"let g:solarized_termcolors=256
+"colorscheme solarized
 "colorscheme molokai
-
+colorscheme gruvbox
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
@@ -69,6 +72,7 @@ set ffs=unix,dos,mac
 filetype on
 set wildmenu
 set cursorline
+set backspace=indent,eol,start
 "set cursorcolumn
 set hlsearch
 set laststatus=2
@@ -120,12 +124,16 @@ nnoremap <leader>b L
 nnoremap <leader>m M
 
 " vim window split navigation
-nnoremap ∆ <C-W>j
-nnoremap ˚ <C-W>k
-nnoremap ˙ <C-W>h
-nnoremap ¬ <C-W>l
-nnoremap ß <C-W>s
-nnoremap √ <C-W>v
+
+
+
+
+
+
+nnoremap <Down> <C-W>j
+nnoremap <Up> <C-W>k
+nnoremap <Left> <C-W>h
+nnoremap <Right> <C-W>l
 nnoremap <tab> <C-w>w
 
 nnoremap <space> :noh<CR>
@@ -202,7 +210,8 @@ let g:neomake_error_sign = {'text': '✖', 'texthl': 'NeomakeErrorSign'}
 
 
 "airline theme
-let g:airline_theme='base16_solarized'          
+"let g:airline_theme='base16_solarized'          
+let g:airline_theme='dark'          
 "
 
 "ctag 
@@ -225,3 +234,16 @@ nnoremap <Leader><Leader>t :terminal<CR>
 nnoremap <C-P> :tabp<CR>
 nnoremap <C-N> :tabn<CR>
 
+nnoremap <leader><leader>v :vsp 
+nnoremap <leader><leader>h :sp 
+nnoremap <leader><leader>vt :vsp term://zsh<CR>
+nnoremap <leader><leader>ht :vsp term://zsh<CR>
+
+
+if has('nvim')
+au TermOpen * setlocal nonumber norelativenumber
+tnoremap jk <C-\><C-n>
+tnoremap <leader><leader>vt <C-\><C-n>:vsp term://zsh<CR>
+tnoremap <leader><leader>ht <C-\><C-n>:sp term://zsh<CR>
+
+endif
