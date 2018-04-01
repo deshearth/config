@@ -17,7 +17,6 @@ call dein#add('Shougo/vimproc.vim', {
     \     'unix': 'gmake',
     \    },
     \ })
-call dein#add('Shougo/unite.vim')
 "call dein#add('roxma/python-support.nvim')
 call dein#add('roxma/nvim-completion-manager')
 call dein#add('roxma/ncm-clang')
@@ -27,13 +26,16 @@ if !has('nvim')
   call dein#add('roxma/vim-hug-neovim-rpc')
 endif
 " and a lot more plugins.....
-call dein#add('flazz/vim-colorschemes')
+"call dein#add('flazz/vim-colorschemes')
 call dein#add('scrooloose/nerdtree')
 call dein#add('easymotion/vim-easymotion') 
 call dein#add('jiangmiao/auto-pairs')
 call dein#add('majutsushi/tagbar')
 "call dein#add('scrooloose/syntastic')
-call dein#add('neomake/neomake')
+"call dein#add('neomake/neomake')
+call dein#add('w0rp/ale')
+call dein#add('parsonsmatt/intero-neovim')
+call dein#add('neovimhaskell/haskell-vim')
 call dein#add('tpope/vim-surround')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
@@ -70,6 +72,7 @@ set ffs=unix,dos,mac
 
 
 filetype on
+filetype plugin indent on
 set wildmenu
 set cursorline
 set backspace=indent,eol,start
@@ -80,9 +83,10 @@ set tabstop=2
 set shiftwidth=2
 set smartindent
 autocmd FileType python set expandtab
+set expandtab
 "autocmd vimenter * NERDTree
 set autoindent
-set cindent
+"set cindent
 set ai
 set si
 set nowrap
@@ -111,6 +115,7 @@ nnoremap <silent><F2> :TagbarToggle<CR>
 let g:toggle_list_no_mappings=1
 nmap <script><silent><F3> :call ToggleLocationList()<CR>
 nmap <script><silent><F4> :call ToggleQuickfixList()<CR>
+nmap <leader><leader>a :ALEToggle<CR>
 
 " set H and L to first dnd last character of line
 nnoremap H ^
@@ -162,11 +167,11 @@ let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012
 "  call neomake#configure#automake('nw', 1000)
 "endif
 " When writing a buffer.
-call neomake#configure#automake('w')
+"call neomake#configure#automake('w')
 " When writing a buffer, and on normal mode changes (after 750ms).
-call neomake#configure#automake('nw', 750)
+"call neomake#configure#automake('nw', 750)
 " When reading a buffer (after 1s), and when writing.
-call neomake#configure#automake('rw', 1000)
+"call neomake#configure#automake('rw', 1000)
 
 "augroup my_neomake_highlights
 "		au!
@@ -181,11 +186,28 @@ call neomake#configure#automake('rw', 1000)
 "        \ highlight NeomakeErrorSign ctermfg=white |
 "        \ highlight NeomakeWarningSign ctermfg=white 
 "augroup END
-hi NeomakeWarningSign ctermfg=227 ctermbg=237
-hi NeomakeErrorSign ctermfg=160 ctermbg=237
-let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_error_sign = {'text': '✖', 'texthl': 'NeomakeErrorSign'}
-		
+"hi NeomakeWarningSign ctermfg=227 ctermbg=237
+"hi NeomakeErrorSign ctermfg=160 ctermbg=237
+"let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSign'}
+"let g:neomake_error_sign = {'text': '✖', 'texthl': 'NeomakeErrorSign'}
+
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+highlight ALEWarning ctermbg=237
+highlight ALEError ctermbg=237
+
+let g:ale_linters = {
+\ 	'cpp': ['clang', 'cppcheck'],
+\		'haskell': ['hlint', 'ghc-mod']
+\}
+
+
+"let g:ale_fixers = {
+"\   'javascript': ['eslint'],
+"\		'cpp': ['clang-format'],
+"\}
+"let g:ale_fix_on_save = 1
+
 "let g:neomake_highlight_lines = 1
 "let g:neomake_highlight_columns = 0
 
@@ -247,3 +269,16 @@ tnoremap <leader><leader>vt <C-\><C-n>:vsp term://zsh<CR>
 tnoremap <leader><leader>ht <C-\><C-n>:sp term://zsh<CR>
 
 endif
+
+
+
+
+
+" haskell vim conf
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
