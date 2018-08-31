@@ -7,8 +7,8 @@ export ZSH=/Users/melancholymirth/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="arrow"
 #ZSH_THEME="avit"
+#ZSH_THEME=""
 #ZSH_THEME="awesomepanda"
-
 
 
 
@@ -54,16 +54,32 @@ ZSH_THEME="arrow"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git autojump osx)
+plugins=(zsh-syntax-highlighting)
 
 # User configuration
 
-export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin"
-export PYTHONPATH="/Users/melancholymirth/miniconda3/bin/"
+source $ZSH/oh-my-zsh.sh
 
+
+
+#autoload -U promptinit && promptinit
+#prompt purity
+#autoload -U promptinit; promptinit
+## optionally define some options
+#PURE_CMD_MAX_EXEC_TIME=10
+##PURE_PROMPT_SYMBOL="ᘡ ᘞ  "
+#prompt pure
+
+#export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:$PATH"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:/Users/melancholymirth/.local/bin:/Developer/NVIDIA/CUDA-9.2/:/usr/local/Cellar/caffe:/usr/local/cuda/include:$PATH"
+#export PYTHONPATH="/Users/melancholymirth/anaconda3/bin/:/Users/melancholymirth/caffe/python"
+#export PYTHONPATH="/usr/local/opt/python/bin/"
+#export DYLD_LIBRARY_PATH="Developer/NVIDIA/CUDA-9.2/lib:$DYLD_LIBRARY_PATH"
+
+#export PYTHONPATH="/Users/melancholymirth/caffe/python:$PYTHONPATH"
+export PYTHONPATH="/usr/local/Cellar/caffe/python:$PYTHONPATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 #export PATH="/Users/melancholymirth/miniconda3/bin:$PATH"
-source $ZSH/oh-my-zsh.sh
 export LANG="en_US.UTF-8"
 export LC_ALL"=en_US.UTF-8"
 # You may need to manually set your language environment
@@ -91,26 +107,34 @@ export LC_ALL"=en_US.UTF-8"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-alias vi='vim'
+alias vi='nvim'
 alias zshconfig="vi ~/.zshrc"
 alias vimconfig="vi ~/.vimrc"
 alias tmuxconfig="vi ~/.tmux.conf"
+alias nvimconfig="nvim ~/.config/nvim/init.vim" 
 alias karaconfig="vi ~/.config/karabiner/karabiner.json"
+alias wmconfig="vi ~/.chunkwmrc"
+alias khdconfig="vi ~/.khdrc"
+alias brewserv='brew services'
+alias start_chunkwm="brewserv start chunkwm"
+alias start_khd="brewserv start khd"
 alias linux="ssh ychu26@linux.ews.illinois.edu"
 alias linuxx="ssh -Y ychu26@linux.ews.illinois.edu"
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+#[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 alias quit="exit"
 #alias jupyter="jupyter notebook"
-alias python2="source activate python2"
+#alias python2="source activate python2"
+alias python2="python2.7"
 #alias python3="source activate python3"
-alias load_conda="export PATH='/Users/melancholymirth/miniconda3/bin:$PATH'; jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%"
+#alias load_conda="export PATH='/Users/melancholymirth/miniconda3/bin:$PATH'; jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%"
+alias load_conda="export PATH='/Users/melancholymirth/anaconda3/bin:$PATH'"
 alias quit_conda="export PATH='/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin'" 
 alias deactivate="source deactivate"
 alias back='cd $OLDPWD'
 alias zshupdate="source ~/.zshrc"
 alias load_themes='jt -t grade3 -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%'
 alias byword_dir="cd '/Users/melancholymirth/Library/Mobile Documents/N39PJFAFEV~com~metaclassy~byword/Documents/'"
-alias .="open ."
 #jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%
 
 
