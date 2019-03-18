@@ -1,64 +1,60 @@
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let mapleader = ";"
 let maplocalleader = "\\"
-noremap \ ;
-set nocompatible
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim " path to dein.vim
-call dein#begin(expand('~/.vim/dein')) " plugins' root path
-call dein#add('Shougo/dein.vim')
-call dein#add('Shougo/vimproc.vim', {
-    \ 'build': {
-    \     'windows': 'tools\\update-dll-mingw',
-    \     'cygwin': 'make -f make_cygwin.mak',
-    \     'mac': 'make -f make_mac.mak',
-    \     'linux': 'make',
-    \     'unix': 'gmake',
-    \    },
-    \ })
-call dein#add('roxma/ncm-clang')
+noremap \| ;
+
+
+
+
+
+call plug#begin('~/.local/share/nvim/vim-plug')
+
+Plug 'roxma/ncm-clang'
 " ncm2 for completion
-call dein#add('ncm2/ncm2')
-call dein#add('ncm2/ncm2-bufword')
-call dein#add('ncm2/ncm2-path')
-call dein#add('ncm2/ncm2-jedi')
-call dein#add('roxma/nvim-yarp')
-"
-call dein#add('SirVer/ultisnips')
-"call dein#add('Shougo/deoplete.nvim')
-"call dein#add('Shougo/neosnippet.vim')
-"call dein#add('Shougo/neosnippet-snippets')
-if !has('nvim')
-  call dein#add('roxma/vim-hug-neovim-rpc')
-endif
-"" and a lot more plugins.....
-call dein#add('flazz/vim-colorschemes')
-call dein#add('scrooloose/nerdtree')
-call dein#add('easymotion/vim-easymotion') 
-"call dein#add('jiangmiao/auto-pairs')
-call dein#add('cohama/lexima.vim')
-"call dein#add('tmsvg/pear-tree')
-"call dein#add('vim-scripts/auto-pairs-gentle')
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-ultisnips'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-jedi'
+Plug 'roxma/nvim-yarp'
+Plug 'SirVer/ultisnips'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'flazz/vim-colorschemes'
+"Plug 'scrooloose/nerdtree'
+Plug 'easymotion/vim-easymotion'
+Plug 'cohama/lexima.vim'
+"Plug 'ludovicchabant/vim-gutentags'
+"Plug 'skywind3000/gutentags_plus'
+Plug 'w0rp/ale'
+Plug 'parsonsmatt/intero-neovim'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'tpope/vim-surround'
+"Plug 'JamshedVesuna/vim-markdown-preview'
+Plug 'itspriddle/vim-marked'
+Plug 'milkypostman/vim-togglelist'
+Plug 'tpope/vim-repeat'
+Plug 'morhetz/gruvbox'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+"Plug '/usr/local/opt/fzf'
+"Plug 'junegunn/fzf.vim'
+Plug 'lervag/vimtex'
+Plug 'itchyny/lightline.vim'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'justinmk/vim-sneak'
 
-""
-call dein#add('majutsushi/tagbar')
-call dein#add('ludovicchabant/vim-gutentags')
-call dein#add('skywind3000/gutentags_plus')
-call dein#add('w0rp/ale')
-call dein#add('parsonsmatt/intero-neovim')
-call dein#add('neovimhaskell/haskell-vim')
-call dein#add('tpope/vim-surround')
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
-call dein#add('JamshedVesuna/vim-markdown-preview')
-call dein#add('milkypostman/vim-togglelist')
-call dein#add('tpope/vim-repeat')
-call dein#add('morhetz/gruvbox')
-call dein#add('godlygeek/tabular')
-call dein#add('plasticboy/vim-markdown')
-call dein#add('junegunn/fzf')
-call dein#add('lervag/vimtex')
+call plug#end()
 
-call dein#end()
+
+
+
+
+
+
+
+
+
+
 
 
 "Always show current position
@@ -77,11 +73,14 @@ set background=dark
 "colorscheme solarized
 "colorscheme molokai
 colorscheme gruvbox
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark='hard'
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
+set autoread
 
 
 
@@ -96,9 +95,13 @@ set laststatus=2
 set tabstop=2
 set shiftwidth=2
 set smartindent
-autocmd FileType python set expandtab
+set textwidth=0
+autocmd FileType markdown setlocal tabstop=4
+autocmd FileType markdown setlocal shiftwidth=4
 set expandtab
-"autocmd vimenter * NERDTree
+
+set pastetoggle=<F9>
+
 set autoindent
 "set cindent
 set ai
@@ -111,49 +114,31 @@ set showmatch
 set foldmethod=indent
 set nofoldenable
 set foldlevel=1
+set scrolloff=5
+
 "highlight Comment cterm=bold cterm=underline ctermfg=darkred
 "highlight Comment cterm=bold cterm=underline
 set nomodeline
 
+inoremap jk <Esc>
+"inoremap ze = too common
+inoremap zd =
+inoremap zp +
 
-"used in latex to substitute supscript and subscript
-ca subs s/\v'([^.^']+)\.([^.^']+)'/\1_{\2}/g
-ca sups s/\v'([^.^']+)\.\.([^.^']+)'/\1^{\2}/g
-ca subps s/\v'([^.^']+)\.([^.^']+)\.([^.^']+)'/\1_{\2}^{\3}/g
-
-"""""""""""
-"imap <C-i> <Esc>:exec "normal f" . leavechar<CR>a                           
-"inoremap <C-i> <Esc>/[)}"'\]>]<CR>:nohl<CR>a
-"use jk for esc
-imap jk <Esc>
-
-"""""""""""""""""""""""""""""""""""
-" plugin configure
-" """""""""""""""""""""""""""""""""
-"nerdtreetoggle
-"press ctrl+t
-nnoremap <silent><F1> :NERDTreeToggle<CR>
-"tagbar
-"press f9
-nnoremap <silent><F2> :TagbarToggle<CR>
-"
-"gutentags setting
-"
-" enable gtags module
-let g:gutentags_modules = ['ctags', 'gtags_cscope']
-
-" config project root markers.
-let g:gutentags_project_root = ['.root']
-
-" generate datebases in my cache directory, prevent gtags files polluting my project
-let g:gutentags_cache_dir = expand('~/.cache/tags')
-
-" change focus to quickfix window after search (optional).
-let g:gutentags_plus_switch = 1
-
-set pastetoggle=<F9>
-0
-
+imap zh ^{
+inoremap zc ^
+inoremap zs *
+inoremap zn #
+inoremap zv \|
+inoremap zb %
+imap zl _{
+inoremap zu _
+inoremap zm -
+inoremap zo ^*
+inoremap jj \
+imap kk (
+imap hk {
+imap z<space> $
 " auto pair config
 "let g:lexima_enable_newline_rules = 1
 call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': [ 'markdown','tex' ]})
@@ -173,12 +158,18 @@ call lexima#add_rule({'char': '\[', 'input_after': '\]', 'filetype':  'tex' })
 "            \ '$': {'closer': '$'}
 "            \ }
 
+"F key map
+noremap <F1> :LeaderfFile<CR>
+noremap <F2> :LeaderfFunction!<CR>
 "togglelist 
 let g:toggle_list_no_mappings=1
 nmap <script><silent><F3> :call ToggleLocationList()<CR>
 nmap <script><silent><F4> :call ToggleQuickfixList()<CR>
 nmap <leader><leader>a :ALEToggle<CR>
 
+"autosave
+"autocmd filetype markdown,tex let g:auto_save = 1
+"autocmd filetype markdown,tex let g:auto_save_silent = 1
 
 
 " move by display line
@@ -191,6 +182,8 @@ noremap Y y$
 nnoremap H ^
 nnoremap L $
 
+nnoremap K 10k
+nnoremap J 10j
 
 nnoremap <CR> <C-f>
 nnoremap <BS> <C-b>
@@ -199,8 +192,8 @@ nnoremap <leader>t H
 nnoremap <leader>b L
 nnoremap <leader>m M
 
-" vim window split navigation
 
+" vim window split navigation
 
 
 
@@ -214,6 +207,7 @@ nnoremap <tab> <C-w>w
 
 nnoremap <space> :noh<CR>
 
+
 "nnoremap <M-h> <C-W>h
 "easy motion
 "trigger key is ;   then followed by hjkl
@@ -224,9 +218,29 @@ map <Leader>h <Plug>(easymotion-linebackward)
 map <Leader>w <Plug>(easymotion-bd-w)
 
 map <Leader>f <Plug>(easymotion-bd-f)
+map  / <Plug>(easymotion-sn)
+
 let g:EasyMotion_startofline = 0
 let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
+"sneak 
+let g:sneak#s_next = 1
+let g:sneak#label = 1
+let g:sneak#target_labels = "abcdeghijklmnopq"
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
 "neomake setup
 "function! MyOnBattery()
 "  return readfile('/sys/class/power_supply/AC/online') == ['0']
@@ -275,8 +289,9 @@ let g:ale_linters = {
 
 
 " vim-markdown-preview config
-let vim_markdown_preview_hotkey='<C-m>'
-let vim_markdown_preview_pandoc=1
+"let vim_markdown_preview_hotkey='<C-m>'
+"let vim_markdown_preview_pandoc=1
+noremap <C-m> :MarkedToggle!<CR>
 
 " vim-mardown config
 let g:tex_conceal = ""
@@ -290,7 +305,8 @@ let g:vimtex_latexmk_continuous = 1
 let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_method = 'skim'
 
-map <localleader>r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf<CR>
+"map <localleader>r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline -b <C-r>=line('.')<CR> %<.pdf<CR>
+nmap <localleader>r <plug>(vimtex-view)
 
 
 "airline theme
@@ -299,8 +315,6 @@ let g:airline_theme='dark'
 "
 
 "ctag 
-let g:tagbar_ctags_bin='/usr/local/bin/ctags' " Proper Ctags locations
-let g:tagbar_width=26						  " Default is 40
 
 "ncm setting (overwritten by  snippets)
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -350,7 +364,7 @@ nnoremap <C-N> :tabn<CR>
 nnoremap <leader><leader>v :vsp 
 nnoremap <leader><leader>h :sp 
 nnoremap <leader><leader>vt :vsp term://zsh<CR>
-nnoremap <leader><leader>ht :vsp term://zsh<CR>
+nnoremap <leader><leader>ht :sp term://zsh<CR>
 
 
 if has('nvim')

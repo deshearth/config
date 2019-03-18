@@ -71,17 +71,21 @@ source $ZSH/oh-my-zsh.sh
 #prompt pure
 
 #export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:$PATH"
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:/Users/melancholymirth/.local/bin:/Developer/NVIDIA/CUDA-9.2/:/usr/local/Cellar/caffe:/usr/local/cuda/include:$PATH"
 #export PYTHONPATH="/Users/melancholymirth/anaconda3/bin/:/Users/melancholymirth/caffe/python"
 #export PYTHONPATH="/usr/local/opt/python/bin/"
 #export DYLD_LIBRARY_PATH="Developer/NVIDIA/CUDA-9.2/lib:$DYLD_LIBRARY_PATH"
 
 #export PYTHONPATH="/Users/melancholymirth/caffe/python:$PYTHONPATH"
-export PYTHONPATH="/usr/local/Cellar/caffe/python:$PYTHONPATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 #export PATH="/Users/melancholymirth/miniconda3/bin:$PATH"
+# added by Miniconda3 installer
+export PATH="/Users/melancholymirth/miniconda3/bin:$PATH"
+
 export LANG="en_US.UTF-8"
 export LC_ALL"=en_US.UTF-8"
+#export FZF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
+#export FZF_DEFAULT_OPTS='--height=70% --preview="cat {}" --preview-window=right:60%:wrap'
+#export FZF_DEFAULT_COMMAND='rg --files'
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -108,6 +112,7 @@ export LC_ALL"=en_US.UTF-8"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 alias vi='nvim'
+alias vil='nvim --listen /tmp/nvimsocket'
 alias zshconfig="vi ~/.zshrc"
 alias vimconfig="vi ~/.vimrc"
 alias tmuxconfig="vi ~/.tmux.conf"
@@ -125,17 +130,23 @@ alias linuxx="ssh -Y ychu26@linux.ews.illinois.edu"
 alias quit="exit"
 #alias jupyter="jupyter notebook"
 #alias python2="source activate python2"
-alias python2="python2.7"
 #alias python3="source activate python3"
 #alias load_conda="export PATH='/Users/melancholymirth/miniconda3/bin:$PATH'; jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%"
-alias load_conda="export PATH='/Users/melancholymirth/anaconda3/bin:$PATH'"
-alias quit_conda="export PATH='/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin'" 
-alias deactivate="source deactivate"
 alias back='cd $OLDPWD'
 alias zshupdate="source ~/.zshrc"
+alias vimupdate="source ~/.config/nvim/init.vim"
 alias load_themes='jt -t grade3 -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%'
-alias byword_dir="cd '/Users/melancholymirth/Library/Mobile Documents/N39PJFAFEV~com~metaclassy~byword/Documents/'"
 #jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%
+# alias net="cd ~/Box\ Sync/Tarantula/txt"
+alias swapdir="~/.local/share/nvim/swap"
+# directory of latex macro
+alias desmacro="vi ~/Library/texmf/tex/latex/desmacro/desmacro.sty"
+# sync files between two folders
+alias weaving="rsync *.tex ~/Library/Mobile\ Documents/com~apple~CloudDocs/tarantula/src; rsync *.pdf ~/Library/Mobile\ Documents/com~apple~CloudDocs/tarantula/nets"
+# clear file except .tex .pdf
+alias tex_clean="find . -not \( -name '*.tex' -o -name '*.pdf' \) -delete"
+alias tex_install="sudo tlmgr install"
+alias clc="clear"
 
 
 
@@ -147,3 +158,5 @@ set -o vi
 
 
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
