@@ -140,11 +140,13 @@ alias load_themes='jt -t grade3 -fs 95 -altp -tfs 11 -nfs 115 -cellw 88%'
 # alias net="cd ~/Box\ Sync/Tarantula/txt"
 alias swapdir="~/.local/share/nvim/swap"
 # directory of latex macro
+alias destexlib="cd ~/Library/texmf/tex/latex"
 alias desmacro="vi ~/Library/texmf/tex/latex/desmacro/desmacro.sty"
+alias despkg="vi ~/Library/texmf/tex/latex/despkg/despkg.tex"
 # sync files between two folders
 alias weaving="rsync *.tex ~/Library/Mobile\ Documents/com~apple~CloudDocs/tarantula/src; rsync *.pdf ~/Library/Mobile\ Documents/com~apple~CloudDocs/tarantula/nets"
 # clear file except .tex .pdf
-alias tex_clean="find . -not \( -name '*.tex' -o -name '*.pdf' \) -delete"
+alias tex_clean="find . \( -name '*.log' -o -name '*.synctex.gz' -o -name '*.fls' -o -name '*.aux' -o -name '*.fdb_latexmk' \) -delete" 
 alias tex_install="sudo tlmgr install"
 alias clc="clear"
 
