@@ -1,0 +1,119 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{desmacro}[2019/03/17 macro package]
+\RequirePackage{amsmath,amsthm,amssymb}
+\RequirePackage{mathtools}
+\RequirePackage{xspace}
+\RequirePackage{xparse}
+
+%\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+%\newcommand{\norm}[1]{\left\Vert #1 \right\Vert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\inner{\langle}{\rangle}
+\DeclarePairedDelimiter\set{\{}{\}}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+
+\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+\newcommand{\aleq}{&=}
+\newcommand{\algeq}{&\geq}
+\newcommand{\algr}{&>}
+\newcommand{\alleq}{&\le}
+\newcommand{\alled}{&<}
+\newcommand{\alend}{&\\}
+\newcommand{\given}{\;\middle\vert\;}
+\newcommand{\diff}{\mathrm{d}}
+
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\Complex}{\mathbb{C}}
+\newcommand{\Rational}{\mathbb{Q}}
+\newcommand{\Integer}{\mathbb{Z}}
+\newcommand{\Natural}{\mathbb{N}}
+
+\newcommand{\inv}[1]{{#1}^{-1}}
+\newcommand{\invf}[1]{\frac{1}{#1}}
+\newcommand{\trans}[1]{{#1}^{\top}}
+\newcommand{\prob}[1]{\mathbf { P } \left[ #1 \right] }
+\newcommand{\cprob}[2]{\mathbf { P } \left[ #1 \;\middle\vert\; #2 \right] }
+\newcommand{\expect}[1] {\mathbf { E } \left[ #1 \right] }
+\newcommand{\cexpect}[2] {\mathbf { E } \left[ #1 \;\middle\vert\; #2 \right] }
+\newcommand{\indicator}[1]{\mathbf{1}_{\{#1\}}}
+
+\newcommand{\inset}[1]{\in \set{ #1 }}
+
+%\let\originalforall\forall
+%\renewcommand{\forall}{\forall \,}
+
+
+ % --> Colin J. Wynne
+\newcommand{\Wlog}{without loss of generality\xspace}
+\newcommand{\WLOG}{Without loss of generality\xspace}
+
+\newcommand{\xmath}[1]{\ensuremath{#1}\xspace}
+\newcommand{\lam}{\xmath{\lambda}}
+
+\newcommand{\swapdef}[2]{{%
+\let \@tempa #1\relax 
+\global\let #1 #2\relax 
+\global\let #2 \@tempa}}
+
+\swapdef{\epsilon}{\varepsilon}
+\swapdef{\nothing}{\varnothing}
+\swapdef{\rho}{\varrho}
+
+ % <--- Colin J. Wynne
+%\NewDocumentCommand\TwoOf{O{a}O{b}m}{Text with #3 and perhaps #1 and #2}
+
+
+    %from djhsu --->
+    \newcommand{\ie}{\emph{i.e.}\xspace}
+    \newcommand{\eg}{\emph{e.g.}\xspace}
+
+    \def\ddefloop#1{\ifx\ddefloop#1\else\ddef{#1}\expandafter\ddefloop\fi}
+
+    % \cA, \cB, ...
+    \def\ddef#1{\expandafter\def\csname c#1\endcsname{\ensuremath{\mathcal{#1}}}}
+    \ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+
+    % \sA, \sB, ...
+    \def\ddef#1{\expandafter\def\csname s#1\endcsname{\ensuremath{\mathsf{#1}}}}
+    \ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+
+    %<--- from djhsu
+
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\sgn}{\operatorname{sgn}}
+
+
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\dom}{dom}
+\DeclareMathOperator*{\diam}{diam}
+\DeclareMathOperator*{\Int}{Int}
+\DeclareMathOperator*{\Conv}{Conv}
+\DeclareMathOperator*{\Epi}{Epi}
+\DeclareMathOperator*{\Ker}{Ker}
+\DeclareMathOperator*{\range}{range}
+\DeclareMathOperator*{\Cov}{Cov}
+\DeclareMathOperator*{\Corr}{Corr}
+%\DeclareMathOperator*{\limsup}{lim\,sup}
+%\DeclareMathOperator*{\liminf}{lim\,inf}
+
+%%%%% theorems, etc. %%%%%%%%%
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{example}{Example}[section]
+
