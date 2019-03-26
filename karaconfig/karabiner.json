@@ -1315,44 +1315,6 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "f",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_control"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "b",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_control"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_arrow",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
                                     "key_code": "h",
                                     "modifiers": {
                                         "mandatory": [
@@ -1471,7 +1433,7 @@
                     {
                         "manipulators": [
                             {
-                                "description": "Change right_command to command+shift.",
+                                "description": "Change right_command to command+shift+ctrl.",
                                 "from": {
                                     "key_code": "right_command",
                                     "modifiers": {
@@ -1484,7 +1446,8 @@
                                     {
                                         "key_code": "left_shift",
                                         "modifiers": [
-                                            "left_command"
+                                            "left_command",
+                                            "left_control"
                                         ]
                                     }
                                 ],

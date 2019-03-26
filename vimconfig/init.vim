@@ -20,28 +20,25 @@ Plug 'roxma/nvim-yarp'
 Plug 'SirVer/ultisnips'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'flazz/vim-colorschemes'
-"Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 Plug 'easymotion/vim-easymotion'
 Plug 'cohama/lexima.vim'
-"Plug 'ludovicchabant/vim-gutentags'
-"Plug 'skywind3000/gutentags_plus'
 Plug 'w0rp/ale'
 Plug 'parsonsmatt/intero-neovim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'tpope/vim-surround'
-"Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'itspriddle/vim-marked'
 Plug 'milkypostman/vim-togglelist'
 Plug 'tpope/vim-repeat'
 Plug 'morhetz/gruvbox'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
-"Plug '/usr/local/opt/fzf'
-"Plug 'junegunn/fzf.vim'
 Plug 'lervag/vimtex'
 Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'justinmk/vim-sneak'
+"Plug   'KeitaNakamura/tex-conceal.vim', {'for': 'tex'} " for VimPlug
+Plug 'PietroPate/vim-tex-conceal'
 
 call plug#end()
 
@@ -98,6 +95,8 @@ set smartindent
 set textwidth=0
 autocmd FileType markdown setlocal tabstop=4
 autocmd FileType markdown setlocal shiftwidth=4
+autocmd BufRead,BufNewFile *.tex set suffixesadd+=.tex
+autocmd FileType tex call serverstart('/tmp/nvimsocket')
 set expandtab
 
 set pastetoggle=<F9>
@@ -120,19 +119,25 @@ set scrolloff=5
 "highlight Comment cterm=bold cterm=underline
 set nomodeline
 
+set lazyredraw
+set ttimeoutlen=0
+set timeoutlen=500
+hi Normal ctermbg=NONE
+
 inoremap jk <Esc>
 "inoremap ze = too common
 inoremap zd =
 inoremap zp +
 
-imap zh ^{
 inoremap zc ^
 inoremap zs *
 inoremap zn #
 inoremap zv \|
 inoremap zb %
+imap zh ^{
 imap zl _{
 inoremap zu _
+inoremap zg 𝒢
 inoremap zm -
 inoremap zo ^*
 inoremap jj \
@@ -146,6 +151,26 @@ call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': 
 call lexima#add_rule({'char': '<CR>', 'at': '\$\%#\$', 'input_after': '<CR>', 'filetype': ['markdown','tex']})
 
 call lexima#add_rule({'char': '\[', 'input_after': '\]', 'filetype':  'tex' })
+
+" custom vim surround
+"autocmd FileType md let g:surround_36 = "$\r$"
+
+
+
+
+
+
+" create new text obejct
+
+
+
+
+
+
+
+
+
+
 "let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
 "au Filetype tex let b:AutoPairs = {"$": "$"}
 
@@ -159,12 +184,13 @@ call lexima#add_rule({'char': '\[', 'input_after': '\]', 'filetype':  'tex' })
 "            \ }
 
 "F key map
-noremap <F1> :LeaderfFile<CR>
-noremap <F2> :LeaderfFunction!<CR>
+noremap <F1> :NERDTreeToggle<CR>
+noremap <F2> :LeaderfFile
+noremap <F3> :LeaderfFunction!<CR>
 "togglelist 
 let g:toggle_list_no_mappings=1
-nmap <script><silent><F3> :call ToggleLocationList()<CR>
-nmap <script><silent><F4> :call ToggleQuickfixList()<CR>
+nmap <script><silent><F4> :call ToggleLocationList()<CR>
+nmap <script><silent><F5> :call ToggleQuickfixList()<CR>
 nmap <leader><leader>a :ALEToggle<CR>
 
 "autosave
@@ -179,8 +205,8 @@ noremap k gk
 noremap Y y$
 
 " set H and L to first dnd last character of line
-nnoremap H ^
-nnoremap L $
+noremap H ^
+noremap L $
 
 nnoremap K 10k
 nnoremap J 10j
@@ -191,6 +217,15 @@ nnoremap <BS> <C-b>
 nnoremap <leader>t H
 nnoremap <leader>b L
 nnoremap <leader>m M
+
+
+
+
+
+
+
+
+
 
 
 " vim window split navigation
@@ -291,12 +326,13 @@ let g:ale_linters = {
 " vim-markdown-preview config
 "let vim_markdown_preview_hotkey='<C-m>'
 "let vim_markdown_preview_pandoc=1
-noremap <C-m> :MarkedToggle!<CR>
+nnoremap <localleader>m :MarkedToggle!<CR>
 
 " vim-mardown config
-let g:tex_conceal = ""
+"let g:tex_conceal = ""
 let g:vim_markdown_math = 1
 
+""""""""""""""""""""""""" latex 
 
 " vimtex setting
 let g:tex_flavor = 'latex'
@@ -304,14 +340,50 @@ let g:vimtex_fold_manual = 1
 let g:vimtex_latexmk_continuous = 1
 let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_method = 'skim'
+" skim is more mac-friendly and it supports
+" hyper-link in latex-out pdf
+" also cannot get forward search working
+" in zathura and zathura cannot be controlled
+" by chunkwm
+"let g:vimtex_view_method = 'zathura'
+"let g:latex_view_general_viewer = 'zathura'
+set conceallevel=1
+let g:tex_conceal='abdmg'
+" alacritty not displaying utf correctly
+"set conceallevel=2
+"let g:tex_conceal='abdgms'
 
 "map <localleader>r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline -b <C-r>=line('.')<CR> %<.pdf<CR>
 nmap <localleader>r <plug>(vimtex-view)
 
 
+
+
+""" quicktex
+"let g:quicktex_tex = {
+"    \' '    : "\<ESC>:call search('<+.*+>')\<CR>\"_c/+>/e\<CR>",
+"    \'m'   : '\( <+++> \) <++>',
+"    \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
+"\}
+"
+"let g:quicktex_math = {
+"    \' '    : "\<ESC>:call search('<+.*+>')\<CR>\"_c/+>/e\<CR>",
+"    \'fr'   : '\mathcal{R} ',
+"    \'eq'   : '= ',
+"    \'set'  : '\{ <+++> \} <++>',
+"    \'frac' : '\frac{<+++>}{<++>} <++>',
+"    \'one'  : '1 ',
+"    \'st'   : ': ',
+"    \'in'   : '\in ',
+"    \'bn'   : '\mathbb{N} ',
+"    \'zi'   : '^{<+++>} <++>',
+"    \'norm'   : '\norm{<+++>} <++>',
+"    \'pr'   : '\prob{<+++>} <++>',
+"    \}
+
 "airline theme
 "let g:airline_theme='base16_solarized'          
-let g:airline_theme='dark'          
+"let g:airline_theme='dark'          
 "
 
 "ctag 
@@ -394,6 +466,16 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
 
+
+
+
+
+" command abbr to open config file
+command Edespkg tabe ~/Library/texmf/tex/latex/despkg/despkg.tex
+command Edesmacro tabe ~/Library/texmf/tex/latex/desmacro/desmacro.sty
+command Envimconfig tabe ~/.config/nvim/init.vim
+command Ezshconfig tabe ~/.zshrc
+command Ekaraconfig tabe ~/.config/karabiner/karabiner.json
 
 
 

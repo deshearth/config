@@ -6,10 +6,10 @@ export ZSH=/Users/melancholymirth/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME="arrow"
+#ZSH_THEME=""
 #ZSH_THEME="avit"
 #ZSH_THEME=""
 #ZSH_THEME="awesomepanda"
-
 
 
 # Uncomment the following line to use case-sensitive completion.
@@ -54,13 +54,20 @@ ZSH_THEME="arrow"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(zsh-syntax-highlighting)
+plugins=(zsh-syntax-highlighting zsh-completions)
 
 # User configuration
 
 source $ZSH/oh-my-zsh.sh
 
-
+autoload -U compinit && compinit
+# pure theme
+#autoload -U promptinit; promptinit
+#
+## optionally define some options
+#PURE_CMD_MAX_EXEC_TIME=10
+#
+#prompt pure
 
 #autoload -U promptinit && promptinit
 #prompt purity
@@ -80,6 +87,7 @@ source $ZSH/oh-my-zsh.sh
 #export PATH="/Users/melancholymirth/miniconda3/bin:$PATH"
 # added by Miniconda3 installer
 export PATH="/Users/melancholymirth/miniconda3/bin:$PATH"
+#export PATH="/usr/local/bin:$PATH"
 
 export LANG="en_US.UTF-8"
 export LC_ALL"=en_US.UTF-8"
@@ -119,10 +127,14 @@ alias tmuxconfig="vi ~/.tmux.conf"
 alias nvimconfig="nvim ~/.config/nvim/init.vim" 
 alias karaconfig="vi ~/.config/karabiner/karabiner.json"
 alias wmconfig="vi ~/.chunkwmrc"
-alias khdconfig="vi ~/.khdrc"
+alias skhdconfig="vi ~/.skhdrc"
+alias snipdir="cd ~/.vim/UltiSnips/"
+#alias alacconfig="vi ~/.config/alacritty/alacritty.yml"
+alias kittyconfig="vi ~/.config/kitty/kitty.conf"
+
 alias brewserv='brew services'
 alias start_chunkwm="brewserv start chunkwm"
-alias start_khd="brewserv start khd"
+alias start_skhd="brewserv start skhd"
 alias linux="ssh ychu26@linux.ews.illinois.edu"
 alias linuxx="ssh -Y ychu26@linux.ews.illinois.edu"
 #[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
