@@ -25,13 +25,13 @@ Plug 'easymotion/vim-easymotion'
 Plug 'cohama/lexima.vim'
 Plug 'w0rp/ale'
 Plug 'parsonsmatt/intero-neovim'
-Plug 'neovimhaskell/haskell-vim'
+"Plug 'neovimhaskell/haskell-vim'
 Plug 'tpope/vim-surround'
 Plug 'itspriddle/vim-marked'
 Plug 'milkypostman/vim-togglelist'
 Plug 'tpope/vim-repeat'
 Plug 'morhetz/gruvbox'
-Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 Plug 'plasticboy/vim-markdown'
 Plug 'lervag/vimtex'
 Plug 'itchyny/lightline.vim'
@@ -39,7 +39,13 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'justinmk/vim-sneak'
 "Plug   'KeitaNakamura/tex-conceal.vim', {'for': 'tex'} " for VimPlug
 Plug 'PietroPate/vim-tex-conceal'
-
+Plug 'wellle/targets.vim'
+Plug 'tommcdo/vim-exchange'
+Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'mhinz/vim-grepper'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'psliwka/vim-smoothie'
+"Plug 'junegunn/rainbow_parentheses.vim'
 call plug#end()
 
 
@@ -96,7 +102,8 @@ set textwidth=0
 autocmd FileType markdown setlocal tabstop=4
 autocmd FileType markdown setlocal shiftwidth=4
 autocmd BufRead,BufNewFile *.tex set suffixesadd+=.tex
-autocmd FileType tex call serverstart('/tmp/nvimsocket')
+"autocmd BufRead,BufNewFile *.tex call serverstart('/tmp/nvimsocket')
+"autocmd BufRead,BufNewFile *.tex call serverstart()
 set expandtab
 
 set pastetoggle=<F9>
@@ -122,27 +129,31 @@ set nomodeline
 set lazyredraw
 set ttimeoutlen=0
 set timeoutlen=500
+
+set inccommand=nosplit
 hi Normal ctermbg=NONE
 
 inoremap jk <Esc>
 "inoremap ze = too common
+inoremap zb %
+inoremap zc ^
 inoremap zd =
 inoremap zp +
 
-inoremap zc ^
 inoremap zs *
 inoremap zn #
 inoremap zv \|
-inoremap zb %
-imap zh ^{
-imap zl _{
+"imap zh ^{
+"imap zl _{
 inoremap zu _
-inoremap zg 𝒢
+"inoremap ;a 𝒢
 inoremap zm -
-inoremap zo ^*
-inoremap jj \
+"inoremap zo ^*
+inoremap <C-f> \
+
 imap kk (
-imap hk {
+imap kh {
+
 imap z<space> $
 " auto pair config
 "let g:lexima_enable_newline_rules = 1
@@ -160,8 +171,12 @@ call lexima#add_rule({'char': '\[', 'input_after': '\]', 'filetype':  'tex' })
 
 
 
-" create new text obejct
+"easy align
+"" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
 
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 
 
@@ -208,8 +223,10 @@ noremap Y y$
 noremap H ^
 noremap L $
 
-nnoremap K 10k
-nnoremap J 10j
+"nnoremap K 10k
+"nnoremap J 10j
+nnoremap <C-u> 10k
+nnoremap <C-d> 10j
 
 nnoremap <CR> <C-f>
 nnoremap <BS> <C-b>
@@ -219,7 +236,9 @@ nnoremap <leader>b L
 nnoremap <leader>m M
 
 
-
+"
+vnoremap < <gv
+vnoremap > >gv
 
 
 
@@ -238,7 +257,7 @@ nnoremap <Down> <C-W>j
 nnoremap <Up> <C-W>k
 nnoremap <Left> <C-W>h
 nnoremap <Right> <C-W>l
-nnoremap <tab> <C-w>w
+"nnoremap <tab> <C-w>w
 
 nnoremap <space> :noh<CR>
 
@@ -256,7 +275,7 @@ map <Leader>f <Plug>(easymotion-bd-f)
 map  / <Plug>(easymotion-sn)
 
 let g:EasyMotion_startofline = 0
-let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
 
 "sneak 
 let g:sneak#s_next = 1
@@ -340,6 +359,7 @@ let g:vimtex_fold_manual = 1
 let g:vimtex_latexmk_continuous = 1
 let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_method = 'skim'
+let g:vimtex_quickfix_enabled = 1
 " skim is more mac-friendly and it supports
 " hyper-link in latex-out pdf
 " also cannot get forward search working
@@ -355,8 +375,7 @@ let g:tex_conceal='abdmg'
 
 "map <localleader>r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline -b <C-r>=line('.')<CR> %<.pdf<CR>
 nmap <localleader>r <plug>(vimtex-view)
-
-
+nnoremap <localleader>t :VimtexTocToggle<CR>
 
 
 """ quicktex
@@ -387,6 +406,10 @@ nmap <localleader>r <plug>(vimtex-view)
 "
 
 "ctag 
+
+"rainbow_parentheses
+"let g:rainbow#max_level = 16
+"let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 
 "ncm setting (overwritten by  snippets)
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -425,7 +448,7 @@ let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
 
 set shortmess+=c
 "leader key use
-nnoremap <Leader><Leader>w :w<CR>
+nnoremap <Leader><Leader>w :w!<CR>
 nnoremap <Leader><Leader>q :q<CR>
 nnoremap <Leader><Leader>wq :wq<CR>
 nnoremap <Leader><Leader>t :tabe term://zsh<CR>
@@ -452,13 +475,13 @@ endif
 
 
 " haskell vim conf
-let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
-let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
-let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
-let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+"let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+"let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+"let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+"let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+"let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+"let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+"let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
 
 " remember the cursor position

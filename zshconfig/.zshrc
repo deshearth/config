@@ -91,6 +91,7 @@ export PATH="/Users/melancholymirth/miniconda3/bin:$PATH"
 
 export LANG="en_US.UTF-8"
 export LC_ALL"=en_US.UTF-8"
+export GRB_LICENSE_FILE=/Users/melancholymirth/gurobi/gurobi.lic
 #export FZF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
 #export FZF_DEFAULT_OPTS='--height=70% --preview="cat {}" --preview-window=right:60%:wrap'
 #export FZF_DEFAULT_COMMAND='rg --files'
@@ -135,6 +136,10 @@ alias kittyconfig="vi ~/.config/kitty/kitty.conf"
 alias brewserv='brew services'
 alias start_chunkwm="brewserv start chunkwm"
 alias start_skhd="brewserv start skhd"
+alias stop_chunkwm="brewserv stop chunkwm"
+alias stop_skhd="brewserv stop skhd"
+alias restart_chunkwm="brewserv restart chunkwm"
+alias restart_skhd="brewserv restart skhd"
 alias linux="ssh ychu26@linux.ews.illinois.edu"
 alias linuxx="ssh -Y ychu26@linux.ews.illinois.edu"
 #[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
@@ -156,11 +161,13 @@ alias destexlib="cd ~/Library/texmf/tex/latex"
 alias desmacro="vi ~/Library/texmf/tex/latex/desmacro/desmacro.sty"
 alias despkg="vi ~/Library/texmf/tex/latex/despkg/despkg.tex"
 # sync files between two folders
-alias weaving="rsync *.tex ~/Library/Mobile\ Documents/com~apple~CloudDocs/tarantula/src; rsync *.pdf ~/Library/Mobile\ Documents/com~apple~CloudDocs/tarantula/nets"
 # clear file except .tex .pdf
-alias tex_clean="find . \( -name '*.log' -o -name '*.synctex.gz' -o -name '*.fls' -o -name '*.aux' -o -name '*.fdb_latexmk' \) -delete" 
+alias tex_clean="find ~/Library/Mobile\ Documents/com~apple~CloudDocs/zoo/tarantula/data \( -name '*.log' -o -name '*.synctex.gz' -o -name '*.fls' -o -name '*.aux' -o -name '*.fdb_latexmk' -o -name '*.out' -o -name '*.blg' -o -name '*.bbl' -o -name '*.thm' \) -delete" 
+alias ttt="$PWD=='tex_inbox && ls'"
 alias tex_install="sudo tlmgr install"
 alias clc="clear"
+alias weaving="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/zoo/tarantula/data/silk"
+
 
 
 
@@ -174,3 +181,7 @@ set -o vi
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# fzf config
+#export FZF_DEFAULT_COMMAND='rg --files'
+#export FZF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
