@@ -1,0 +1,127 @@
+global !p
+def add_table(snip):
+	t = snip.buffer[snip.line].strip()[0]
+	rows = snip.buffer[snip.line].split('x')[0]
+	cols = snip.buffer[snip.line].split('x')[1]
+
+	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+	
+	rows = int_val(rows)
+	cols = int_val(cols)
+
+	offset = cols + 1
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+
+	
+	snip.buffer[snip.line] = ''
+	final_str = old_spacing  
+
+	for i in range(rows):
+		if i == 1:
+			final_str += "".join(["|:---:"]*cols)
+			final_str += "|\n"
+		final_str += "|" + old_spacing + '\t'
+		final_str += " | ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+
+		final_str += " |\n"
+
+	final_str += "\n${0}"
+	snip.expand_anon(final_str)
+
+
+def add_mat(snip):
+	t = snip.buffer[snip.line].strip()[0]
+	rows = snip.buffer[snip.line].split('x')[0]
+	cols = snip.buffer[snip.line].split('x')[1]
+
+	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+	
+	rows = int_val(rows)
+	cols = int_val(cols)
+
+	offset = cols + 1
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+
+	
+	snip.buffer[snip.line] = ''
+	final_str = old_spacing + "\\begin{" + t + "matrix}\n"
+	for i in range(rows):
+		final_str += old_spacing + '\t'
+		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+
+		final_str += " \\\\\\\n"
+
+	final_str += "\\end{" + t + "matrix}\n${0}"
+	snip.expand_anon(final_str)
+
+endglobal
+
+
+pre_expand "add_mat(snip)"
+snippet "(p|b)mat(\d+)x(\d+)" "generate matrix" br
+endsnippet
+
+pre_expand "add_table(snip)"
+snippet "tbl(\d+)x(\d+)" "generate matrix" br
+endsnippet
+
+snippet eq "begin equation"
+$$\begin{equation}
+	${0:${VISUAL}}
+\end{equation}$$
+endsnippet 
+
+snippet eq* "begin equation"
+$$\begin{equation*}
+	${0:${VISUAL}}
+\end{equation*}$$
+endsnippet 
+
+snippet al "begin align"
+$$\begin{align}
+	${0:${VISUAL}}
+\end{align}$$
+endsnippet 
+
+
+snippet al* "begin align*"
+$$\begin{align*}
+	${0:${VISUAL}}
+\end{align*}$$
+endsnippet 
+
+snippet frac "\frac{}{}"
+\frac{${1:nume}}{${2:denom}}${0}
+endsnippet
+
+
+snippet gat "begin gather"
+$$\begin{gather}
+	${0:${VISUAL}}
+\end{gather}$$
+endsnippet 
+
+snippet gat* "begin gather*"
+$$\begin{gather*}
+	${0:${VISUAL}}
+\end{gather*}$$
+endsnippet 
+
+snippet link "add link"  
+[${1:text}](${2:link})${0}
+endsnippet
+
+snippet linkr "add reference-style link"  
+[${1:text}][${2:reflink}]${0}
+endsnippet
+
+snippet im "add link"  
+![${1:title}](${2:link})${0}
+endsnippet
+
+snippet cb "code block"  
+\`\`\`${1:codetype}
+${0:${VISUAL}}
+\`\`\`
+endsnippet
+

@@ -1,0 +1,1099 @@
+global !p
+def create_table(snip):
+	rows = snip.buffer[snip.line].split('x')[0]
+	cols = snip.buffer[snip.line].split('x')[1]
+
+	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+	
+	rows = int_val(rows)
+	cols = int_val(cols)
+
+	offset = cols + 1
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+	
+	snip.buffer[snip.line] = ''
+	
+	final_str = old_spacing + "\\begin{tabular}{|" + "|".join(['$' + str(i + 1) for i in range(cols)]) + "|}\n"
+
+	for i in range(rows):
+		final_str += old_spacing + '\t'
+		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+
+		final_str += " \\\\\\\n"
+
+	final_str += old_spacing + "\\end{tabular}\n$0"
+
+	snip.expand_anon(final_str)
+
+
+#this function is similar to add table
+#don't know how merge yet
+def add_mat(snip):
+	t = snip.buffer[snip.line].strip()[0]
+	rows = snip.buffer[snip.line].split('x')[0]
+	cols = snip.buffer[snip.line].split('x')[1]
+
+	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+	
+	rows = int_val(rows)
+	cols = int_val(cols)
+
+	offset = cols + 1
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+
+	
+	snip.buffer[snip.line] = ''
+	final_str = old_spacing + "\\begin{" + t + "matrix}\n"
+	for i in range(rows):
+		final_str += old_spacing + '\t'
+		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+
+		final_str += " \\\\\\\n"
+
+	final_str += "\\end{" + t + "matrix}\n${0}"
+	snip.expand_anon(final_str)
+
+
+
+# fromm Gilles Castel
+# don't understand this????
+# https://vi.stackexchange.com/questions/18490/ultisnips-context-and-tex
+texMathZones = ['texMathZone'+x for x in ['A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS', 'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'Y', 'Z']]
+
+texIgnoreMathZones = ['texMathText']
+
+texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
+texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
+
+ignore = texIgnoreMathZoneIds[0]
+
+def math():
+	synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
+	try:
+		first = next(i for i in reversed(synstackids) if i in texIgnoreMathZoneIds or i in texMathZoneIds)
+		return first != ignore
+	except StopIteration:
+		return False
+# <--- Gilles Castel
+endglobal
+
+# adapted from  ---> Gilles Castel
+priority 10
+context "math()"
+snippet "bar" "bar" riA
+\overline{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])bar" "bar" riA
+\overline{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
+snippet "til" "til" riA
+\tilde{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])til" "til" riA
+\tilde{`!p snip.rv=match.group(1)`}
+endsnippet
+
+
+priority 10
+context "math()"
+snippet "dot" "dot" riA
+\dot{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])dot" "dot" riA
+\dot{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
+snippet "hat" "hat" riA
+\hat{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])hat" "hat" riA
+\hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "math()"
+snippet "\bnin\b" "not in " rA
+\not\in 
+endsnippet
+
+context "math()"
+snippet "\bEE\b" "geq" rA
+\exists 
+endsnippet
+
+context "math()"
+snippet "\bAA\b" "forall" rA
+\forall 
+endsnippet
+
+context "math()"
+snippet "\bidf\b" "\sqrt{}" rA
+\idf{${1:${VISUAL}}}$0
+endsnippet
+
+context "math()"
+snippet "\bsq\b" "\sqrt{}" rA
+\sqrt{${1:${VISUAL}}}$0
+endsnippet
+
+context "math()"
+snippet sr "^2" iA
+^2
+endsnippet
+
+context "math()"
+snippet cb "^3" iA
+^3
+endsnippet
+
+
+context "math()"
+snippet "inn" "inner prod" rA
+\inner{$1}$0
+endsnippet
+
+context "math()"
+snippet "abs" "\abs{}" rA
+\abs{$1}$0
+endsnippet
+
+context "math()"
+snippet '([A-Za-z])(\d)' "auto subscript" wrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+context "math()"
+snippet "\biff\b" "iff" rA
+\iff
+endsnippet
+
+context "math()"
+snippet "=>" "implies" rA
+\implies
+endsnippet
+
+context "math()"
+snippet "<=" "implied by" Ar
+\impliedby
+endsnippet
+
+context "math()"
+snippet "\boo\b" "\infty" rA
+\infty
+endsnippet
+
+context "math()"
+snippet "\bxnn\b" "xn" rA
+x_n
+endsnippet
+
+context "math()"
+snippet "\bynn\b" "yn" rA
+y_n
+endsnippet
+
+
+context "math()"
+snippet "\bxii\b" "xi" rA
+x_i
+endsnippet
+
+context "math()"
+snippet "\byii\b" "yi" rA
+y_i
+endsnippet
+
+context "math()"
+snippet "\bxjj\b" "xj" rA
+x_j
+endsnippet
+
+context "math()"
+snippet "\byjj\b" "yj" rA
+y_j
+endsnippet
+
+
+context "math()"
+snippet "\bxpo\b" "x" rA
+x_{n+1}
+endsnippet
+
+context "math()"
+snippet "\bxmm\b" "xm" rA
+x_m
+endsnippet
+# <--- Gilles Castel
+
+
+######------
+#compensate for imap in vim
+######------
+
+context "math()"
+snippet zh "superscript" iA
+^{$1}$0
+endsnippet
+
+snippet th "superscript" 
+\textsuperscript{$1}$0
+endsnippet
+
+context "math()"
+snippet zl "subscript" iA
+_{$1}$0
+endsnippet
+
+context "math()"
+snippet "za" "\&" rA
+&
+endsnippet
+
+context "math()"
+snippet lh "sub sup" iA
+_{$1}^{$2}$0
+endsnippet
+
+context "math()"
+snippet zo "optimal" iA
+^*
+endsnippet
+
+context "math()"
+snippet "aeq" "&=" rA
+&=
+endsnippet
+context "math()"
+snippet "age" "&\ge" rA
+&\ge
+endsnippet
+context "math()"
+snippet "agr" "&>" rA
+&>
+endsnippet
+
+context "math()"
+snippet "ale" "&\le" rA
+&\le
+endsnippet
+
+context "math()"
+snippet "als" "&\<" rA
+&<
+endsnippet
+
+context "math()"
+snippet "aen" "&\\" rA
+&\\\\
+endsnippet
+
+#snippet "z\s" "\infty" rA
+#$$1$$0
+#endsnippet
+
+pre_expand "add_mat(snip)"
+snippet "(p|b)mat(\d+)x(\d+)" "generate matrix" br
+endsnippet
+
+
+
+
+
+snippet nc 
+\newcommand{\\${1:cmd}}[${2:0}]{${3:realcmd}} ${0}
+endsnippet
+
+snippet pac "Package" b
+\usepackage[${1:options}]{${2:package}}$0
+endsnippet
+
+snippet "b(egin)?" "begin{} / end{}" br
+\begin{${1:env}}
+	${0:${VISUAL}}
+\end{$1}
+endsnippet
+
+
+snippet dm "begin \[\]" bA
+\[
+	${0:${VISUAL}}
+.\]
+endsnippet 
+
+snippet tikz "begin tikzpicture" b
+\begin{tikzpicture}
+	${0:${VISUAL}}
+\end{tikzpicture}
+endsnippet
+
+
+snippet theorem "begin theorem" b
+\begin{theorem}[${1:name}]
+	${0:${VISUAL}}
+\end{theorem}
+endsnippet
+
+snippet lemma "begin lemma" b
+\begin{lemma}[${1:name}]
+	${0:${VISUAL}}
+\end{lemma}
+endsnippet
+
+snippet proof "begin proof" b
+\begin{proof}
+	${0:${VISUAL}}
+\end{proof}
+endsnippet
+
+snippet definition "begin definition" b
+\begin{definition}[${1:name}]
+	${0:${VISUAL}}
+\end{definition}
+endsnippet
+
+snippet exercise "begin exercise" b
+\begin{exercise}[${1:name}]
+	${0:${VISUAL}}
+\end{exercise}
+endsnippet
+
+snippet example "begin example" b
+\begin{example}
+	${0:${VISUAL}}
+\end{example}
+endsnippet
+
+
+snippet proposition "begin proposition" b
+\begin{proposition}[${1:name}]
+	${0:${VISUAL}}
+\end{proposition}
+endsnippet
+
+snippet remark "begin remark" b
+\begin{remark}
+	${0:${VISUAL}}
+\end{remark}
+endsnippet
+
+snippet cite "cite" 
+\cite{${0:${VISUAL}}}
+endsnippet
+
+snippet hcite "cite" 
+\textsuperscript{\cite{$0}}
+endsnippet
+
+snippet enum "begin enumerate" b
+\begin{enumerate}
+	\item
+	${0:${VISUAL}}
+	\item
+\end{enumerate}
+endsnippet 
+
+snippet enumi "begin enumerate in roman" b
+\begin{enumerate}{(i)}
+	\item
+	${0:${VISUAL}}
+	\item
+\end{enumerate}
+endsnippet 
+
+snippet enuma "begin enumerate in english" b
+\begin{enumerate}{(a)}
+	\item
+	${0:${VISUAL}}
+	\item
+\end{enumerate}
+endsnippet 
+
+snippet gat "begin gather" b
+\begin{gather}
+	${0:${VISUAL}}
+\end{gather}
+endsnippet 
+
+snippet gat* "begin gather*" b
+\begin{gather*}
+	${0:${VISUAL}}
+\end{gather*}
+endsnippet 
+
+snippet eq "begin equation" b
+\begin{equation}
+	${0:${VISUAL}}
+\end{equation}
+endsnippet 
+
+
+snippet eq* "begin equation" b
+\begin{equation*}
+	${0:${VISUAL}}
+\end{equation*}
+endsnippet 
+
+snippet al "begin align" b
+\begin{align}
+	${0:${VISUAL}}
+\end{align}
+endsnippet 
+
+
+snippet al* "begin align*" b
+\begin{align*}
+	${0:${VISUAL}}
+\end{align*}
+endsnippet 
+
+snippet fig "Figure environment" b
+\begin{figure}[${1:htpb}]
+	\centering
+	${2:\includegraphics[width=0.8\textwidth]{$3}}
+	\caption{${4:$3}}
+	\label{fig:${5:${3/\W+/-/g}}}
+\end{figure}
+endsnippet
+
+snippet label "\label{}"
+\label{${1}}${0}
+endsnippet
+
+snippet "((c)?)ref" "\ref{}" r
+\\`!p snip.rv = match.group(1)`ref{}
+endsnippet
+
+
+context "math()"
+snippet // "\frac{}{}" iA
+\frac{${1:nume}}{${2:denom}}${0}
+endsnippet
+
+snippet '\b((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d|[A-Za-z]))*)/' "Fraction" wrA
+\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+context "math()"
+priority 100
+snippet ... "ldots" iA
+\ldots
+endsnippet
+
+#########################
+##common customized expr
+
+context "math()"
+snippet "\bset" "\set{}" rA
+\set{${1:${VISUAL}}}${0}
+endsnippet 
+
+
+context "math()"
+snippet "\bpr\b" "\prob{}" rA
+\prob{${1:${VISUAL}}}${0}
+endsnippet 
+
+context "math()"
+snippet "\bcpr\b" "\cprob{}{}" rA
+\cprob{$1}{${2:condition}}${0}
+endsnippet 
+
+context "math()"
+snippet "\blpr\b" "\lprob{}{}" rA
+\lprob{${1:subscript}}{$2}${0}
+endsnippet 
+
+context "math()"
+snippet "\bhpr\b" "\hprob{}{}" rA
+\hprob{${1:superscript}}{$2}${0}
+endsnippet 
+
+context "math()"
+snippet "\bex\b" "\expect{}" rA
+\expect{${1:${VISUAL}}}${0}
+endsnippet 
+
+context "math()"
+snippet "\bcex\b" "\cexpect{}{}" rA
+\cexpect{$1}{${2:condition}}${0}
+endsnippet 
+
+context "math()"
+snippet "\blex\b" "\lexpect{}{}" rA
+\lexpect{${1:subscript}}{$2}${0}
+endsnippet 
+
+context "math()"
+snippet "\bhex\b" "\hexpect{}{}" rA
+\hexpect{${1:superscript}}{$2}${0}
+endsnippet 
+
+context "math()"
+snippet inv "inverse" iA
+^{-1}$0
+endsnippet
+
+context "math()"
+snippet tran "transpose" iA
+^{\top}$0
+endsnippet
+
+context "math()"
+snippet comp "complement" iA
+^{\complement}$0
+endsnippet
+
+#some aweward names 
+# somehow auto expansion only supports
+# three-letter name for rA option 
+context "math()"
+snippet "gra" "\gradient" rA
+\nabla
+endsnippet
+
+context "math()"
+snippet "hes" "\nabla" rA
+\nabla^2
+endsnippet
+
+context "math()"
+snippet "flr" "\floor" rA
+\floor{$1}$0
+endsnippet
+
+context "math()"
+snippet "cil" "\ceil" rA
+\ceil{$1}$0
+endsnippet
+
+#context "math()"
+#snippet "finv\b" "\invf{}" rA
+#\finv{${1:${VISUAL}}}${0}
+#endsnippet
+
+#context "math()"
+#snippet "\b(tra)\b" "\trans{}" rA
+#\tran{${1:${VISUAL}}}${0}
+#endsnippet
+
+context "math()"
+snippet "nm" "\norm{}" rA
+\norm{${1:${VISUAL}}}${0}
+endsnippet 
+
+context "math()"
+snippet "ns" "\norm{}" rA
+\norm{${1:${VISUAL}}}^2${0}
+endsnippet 
+
+
+
+context "math()"
+snippet "Der" "nth derivative" rA
+\der[$1]{$2}{$3}${0}
+endsnippet 
+
+context "math()"
+snippet "\bder" "derivative" rA
+\der{$1}{$2}${0}
+endsnippet 
+
+context "math()"
+snippet "Par" "nth partial  derivative" rA
+\par[$1]{$2}{$3}${0}
+endsnippet 
+
+context "math()"
+snippet "par" "partial derivative" rA
+\pder{$1}{$2}${0}
+endsnippet 
+
+####------------------
+# greek letter
+context "math()"
+snippet "a;" "\alpha" rA
+\alpha
+endsnippet 
+
+
+context "math()"
+snippet "b;" "\beta" Ar
+\beta
+endsnippet 
+
+context "math()"
+snippet "d;" "\delta" Ar
+\delta
+endsnippet 
+
+context "math()"
+snippet "D;" "\Delta" Ar
+\Delta
+endsnippet 
+
+context "math()"
+snippet "e;" "\varepsilon" Ar
+\varepsilon
+endsnippet 
+
+context "math()"
+snippet "g;" "\gamma" Ar
+\gamma
+endsnippet 
+
+context "math()"
+snippet "G;" "\Gamma" Ar
+\Gamma
+endsnippet 
+
+#context "math()"
+#snippet "k;" "\kappa" Ar
+#\kappa
+#endsnippet 
+
+context "math()"
+snippet "l;" "\lambda" Ar
+\lambda
+endsnippet 
+
+context "math()"
+snippet "L;" "\Lambda" Ar
+\Lambda
+endsnippet 
+
+context "math()"
+snippet "m;" "\mu" Ar
+\mu
+endsnippet 
+
+context "math()"
+snippet "n;" "\nu" Ar
+\nu
+endsnippet 
+
+
+context "math()"
+snippet "f;" "\varphi" Ar
+\phi
+endsnippet 
+
+context "math()"
+snippet "w;" "\omega" Ar
+\omega
+endsnippet 
+
+context "math()"
+snippet "W;" "\Omega" Ar
+\Omega
+endsnippet 
+
+
+context "math()"
+snippet "F;" "\Phi" Ar
+\Phi
+endsnippet 
+
+
+#eta is h in english somehow
+# use hk for curl bracket
+context "math()"
+snippet "h;" "\eta" Ar
+\eta
+endsnippet 
+
+#no meaning for y
+#looks like capital Y
+context "math()"
+snippet "y;" "\psi" Ar
+\psi
+endsnippet 
+
+context "math()"
+snippet "Y;" "\Psi" Ar
+\Psi
+endsnippet 
+
+context "math()"
+snippet "r;" "\varrho" Ar
+\varrho
+endsnippet 
+
+context "math()"
+snippet "s;" "\sigma" Ar
+\sigma
+endsnippet 
+
+
+context "math()"
+snippet "S;" "\Sigma" Ar
+\Sigma
+endsnippet 
+
+
+context "math()"
+snippet "t;" "\tau" Ar
+\tau
+endsnippet 
+
+#looks like a fork 
+context "math()"
+snippet "p;" "\pi" Ar
+\pi
+endsnippet 
+
+context "math()"
+snippet "P;" "\Pi" Ar
+\Pi
+endsnippet 
+
+context "math()"
+snippet "u;" "\upsilon" Ar
+\upsilon
+endsnippet 
+
+# z is used in imap
+# zeta looks like 7:qi
+context "math()"
+snippet "z;" "\zeta" Ar
+\zeta
+endsnippet 
+
+context "math()"
+snippet "i;" "\iota" Ar
+\iota
+endsnippet 
+
+context "math()"
+snippet "x;" "\xi" Ar
+\xi
+endsnippet 
+
+context "math()"
+snippet "X;" "\Xi" Ar
+\Xi
+endsnippet 
+
+context "math()"
+snippet "c;" "\chi" Ar
+\chi
+endsnippet 
+
+#t is taken by \tau e is taken by epsilon
+#no meaning for v, last choice
+#remember way quan for circle {theta has circle}
+context "math()"
+snippet "q;" "\theta" Ar
+\theta
+endsnippet 
+
+context "math()"
+snippet "Q;" "\theta" Ar
+\theta
+endsnippet 
+####------------------
+
+
+
+context "math()"
+snippet "o;" "\nothing" Ar
+\nothing
+endsnippet 
+
+#######-----
+#some operators
+######z------
+
+context "math()"
+snippet ";d" "\diff" Ar
+\diff
+endsnippet 
+
+context "math()"
+snippet ";i" "\int" Ar
+\int
+endsnippet 
+
+
+context "math()"
+snippet ";g" "gradient" Ar
+\nabla
+endsnippet 
+
+context "math()"
+snippet ";h" "hessian" Ar
+\nabla^2
+endsnippet 
+
+context "math()"
+snippet ";pt" "partial" Ar
+\partial
+endsnippet 
+
+context "math()"
+snippet ";si" "set intersect" Ar
+\cap
+endsnippet 
+
+context "math()"
+snippet ";sI" "set intersect" Ar
+\bigcap
+endsnippet 
+
+context "math()"
+snippet ";su" "set union" Ar
+\cup
+endsnippet 
+
+context "math()"
+snippet ";sU" "set union" Ar
+\bigcup
+endsnippet 
+
+context "math()"
+snippet ";ss" "subset" Ar
+\subset
+endsnippet 
+
+context "math()"
+snippet ";SS" "subset" Ar
+\subseteq
+endsnippet 
+
+context "math()"
+snippet ";pd" "postive def" Ar
+\succ
+endsnippet 
+
+context "math()"
+snippet ";PD" "postive semidef" Ar
+\succeq
+endsnippet 
+
+context "math()"
+snippet ";\." "\cdot" Ar
+\cdot
+endsnippet 
+
+context "math()"
+snippet ";x" "\times" Ar
+\times
+endsnippet 
+
+
+
+
+
+
+
+
+
+
+#deadly ninjia weapon
+#snippet "'([^\.]+)\.([^\.]+)\.([^\.]+)'" "Description" r
+#`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}^{`!p snip.rv = match.group(3)`}${0}
+#endsnippet
+
+#snippet "\b([^\.]+)\.([^\.]+)\.([^\.]+)\b" "Description" r
+#snippet "\s([^;]+);([^;]+);([^;]+)\s" "Description" r
+#`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}^{`!p snip.rv = match.group(3)`}${0}
+#endsnippet
+#
+##snippet "\b([^\.]+)\.([^\.]+)\b" "Description" r
+#snippet "\s([^\;]+);([^;]+)\s" "Description" r
+#`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}${0}
+#endsnippet
+#
+#snippet "\s([^;]+);\.([^;]+)\s" "Description" r
+#`!p snip.rv = match.group(1)`^{`!p snip.rv = match.group(2)`}${0}
+#endsnippet
+
+
+
+snippet "\b(sum|inf|max|min|sup|argmin|argmax) (.+) in (.+)" "Description" r
+\\`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)` \in `!p snip.rv = match.group(3)`}${0}
+endsnippet
+
+#
+
+snippet "\bsum(.+) (.+) to (.+)" "Description" r
+\sum_{`!p snip.rv = match.group(1)`=`!p snip.rv = match.group(2)`}^{`!p snip.rv = match.group(3)`}${0}
+endsnippet
+
+snippet "\blim(.+)" "Description" r
+\lim_{`!p snip.rv = match.group(1)` \to \infty}${0}
+endsnippet
+
+
+
+####################
+# template
+
+
+snippet template_gen "template for latex"
+
+
+
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=0.5in]{geometry} 
+\usepackage{desmacro}
+\input{despkg}
+% uncommnet the following if xr-hyper is used
+% \externaldocument[prefix]{path to tex}[url to pdf]
+% for example \externaldocument[V-]{./sub/scribe}[./sub/scribe.pdf]
+%  bear note has a working version
+
+
+\hypersetup{
+pdftitle={`!p snip.rv = t[1].lower()`},
+pdfkeywords={${2:keywords}},
+pdfsubject={${3:SUBJECT}}
+}
+ 
+\pagecolor[rgb]{0,0,0}
+\color[rgb]{0.7,0.7,0.7}
+
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+ 
+\title{${1}}%replace X with the appropriate number
+\author{${4} %replace with your name
+} %if necessary, replace with your course title
+\date{}
+\maketitle
+
+${5:CONTENT}
+%solution
+\begin{enumerate}
+%problem 1%
+\item 
+\begin{enumerate}
+\item a
+
+\end{enumerate}
+%end of all problems%
+\end{enumerate}
+
+ 
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+\bibliographystyle{unsrt}
+\bibliography{./../aux/tar.bib} 
+ 
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+endsnippet
+
+snippet template_def "template for latex"
+
+
+
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=0.5in]{geometry} 
+\usepackage{desmacro}
+\input{despkg}
+% uncommnet the following if xr-hyper is used
+% \externaldocument[prefix]{path to tex}[url to pdf]
+% for example \externaldocument[V-]{./sub/scribe}[./sub/scribe.pdf]
+%  bear note has a working version
+
+
+\hypersetup{
+pdftitle={`!p snip.rv = t[1].lower()`},
+pdfkeywords={${2:definition}},
+pdfsubject={${3:SUBJECT}}
+}
+
+\pagecolor[rgb]{0,0,0}
+ 
+\color[rgb]{0.7,0.7,0.7}
+
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+ 
+\title{${1}}%replace X with the appropriate number
+\author{${4} %replace with your name
+} %if necessary, replace with your course title
+\date{}
+\maketitle
+
+
+${5:CONTENT}
+\section{Definitions}
+\subsection{Preliminary}
+\begin{itemize}
+\item
+\end{itemize}
+\subsection{Definition}
+
+\begin{definition}
+  
+\end{definition}
+
+ 
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+\bibliographystyle{unsrt}
+\bibliography{./../aux/tar.bib} 
+ 
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+endsnippet
+
