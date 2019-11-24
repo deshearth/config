@@ -167,7 +167,7 @@ alias ttt="$PWD=='tex_inbox && ls'"
 alias tex_install="sudo tlmgr install"
 alias clc="clear"
 alias weaving="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/zoo/tarantula/data/silk"
-alias config_git="cp ~/.zshrc ~/deshearthGit/config/zshconfig/.zshrc; cp ~/.config/nvim/init.vim ~/deshearthGit/config/vimconfig/init.vim; cp -r ~/.vim/UltiSnips ~/deshearthGit/config/snipconfig/UltiSnips"
+alias config_git="cp ~/.zshrc ~/deshearthGit/config/zshconfig/.zshrc; cp ~/.config/nvim/init.vim ~/deshearthGit/config/vimconfig/init.vim; cp -r ~/.vim/UltiSnips ~/deshearthGit/config/snipconfig/UltiSnips; cp ~/Library/texmf/tex/latex/desmacro/desmacro.sty ~/deshearthGit/config/textemplate/desmacro.sty; cp ~/Library/texmf/tex/latex/despkg/despkg.tex ~/deshearthGit/config/textemplate/despkg.tex"
 
 
 
