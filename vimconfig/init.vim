@@ -45,6 +45,7 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'mhinz/vim-grepper'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'psliwka/vim-smoothie'
+Plug 'andymass/vim-matchup'
 "Plug 'junegunn/rainbow_parentheses.vim'
 call plug#end()
 
@@ -65,6 +66,7 @@ set ruler
 
 "Set line number
 set number
+set relativenumber
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -117,6 +119,7 @@ set wrap linebreak
 "set ignorecase
 set incsearch
 set showmatch
+set showcmd
 set foldmethod=indent
 set nofoldenable
 set foldlevel=1
@@ -404,6 +407,9 @@ nnoremap <localleader>t :VimtexTocToggle<CR>
 "let g:airline_theme='base16_solarized'          
 "let g:airline_theme='dark'          
 "
+
+"matchup
+let g:matchup_override_vimtex = 1
 
 "ctag 
 
