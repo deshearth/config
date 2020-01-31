@@ -9,14 +9,15 @@ noremap \| ;
 
 call plug#begin('~/.local/share/nvim/vim-plug')
 
-Plug 'roxma/ncm-clang'
-" ncm2 for completion
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-jedi'
-Plug 'roxma/nvim-yarp'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'roxma/ncm-clang'
+"" ncm2 for completion
+"Plug 'ncm2/ncm2'
+"Plug 'ncm2/ncm2-ultisnips'
+"Plug 'ncm2/ncm2-bufword'
+"Plug 'ncm2/ncm2-path'
+"Plug 'ncm2/ncm2-jedi'
+"Plug 'roxma/nvim-yarp'
 Plug 'SirVer/ultisnips'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'flazz/vim-colorschemes'
@@ -46,6 +47,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'psliwka/vim-smoothie'
 Plug 'andymass/vim-matchup'
+"Plug 'triglav/vim-visual-increment'
 "Plug 'junegunn/rainbow_parentheses.vim'
 call plug#end()
 
@@ -136,6 +138,7 @@ set timeoutlen=500
 set inccommand=nosplit
 hi Normal ctermbg=NONE
 
+set nrformats=alpha,octal,hex
 inoremap jk <Esc>
 "inoremap ze = too common
 inoremap zb %
@@ -416,31 +419,100 @@ let g:matchup_override_vimtex = 1
 "rainbow_parentheses
 "let g:rainbow#max_level = 16
 "let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+"
+"
+"
+"coc setting 
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 "ncm setting (overwritten by  snippets)
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-augroup NCM2
-  autocmd!
-  " enable ncm2 for all buffers
-  autocmd BufEnter * call ncm2#enable_for_buffer()
-  " :help Ncm2PopupOpen for more information
-  set completeopt=noinsert,menuone,noselect
-  " When the <Enter> key is pressed while the popup menu is visible, it only
-  " hides the menu. Use this mapping to close the menu and also start a new line.
-  inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-  " uncomment this block if you use vimtex for LaTex
-   autocmd Filetype tex call ncm2#register_source({
-             \ 'name': 'vimtex',
-             \ 'priority': 8,
-             \ 'scope': ['tex'],
-             \ 'mark': 'tex',
-             \ 'word_pattern': '\w+',
-             \ 'complete_pattern': g:vimtex#re#ncm2,
-             \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-             \ })
-augroup END
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"
+"  set completeopt=noinsert,menuone,noselect
+"augroup NCM2
+"  autocmd!
+"  " enable ncm2 for all buffers
+"  autocmd BufEnter * call ncm2#enable_for_buffer()
+"  " :help Ncm2PopupOpen for more information
+"  " When the <Enter> key is pressed while the popup menu is visible, it only
+"  " hides the menu. Use this mapping to close the menu and also start a new line.
+"  inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+"  " uncomment this block if you use vimtex for LaTex
+"   autocmd Filetype tex call ncm2#register_source({
+"             \ 'name': 'vimtex',
+"             \ 'priority': 8,
+"             \ 'scope': ['tex'],
+"             \ 'mark': 'tex',
+"             \ 'word_pattern': '\w+',
+"             \ 'complete_pattern': g:vimtex#re#ncm2,
+"             \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"             \ })
+"   "autocmd Filetype tex call ncm2#register_source({
+"   "         \ 'name' : 'vimtex-cmds',
+"   "         \ 'priority': 8,
+"   "         \ 'complete_length': -1,
+"   "         \ 'scope': ['tex'],
+"   "         \ 'matcher': {'name': 'prefix', 'key': 'word'},
+"   "         \ 'word_pattern': '\w+',
+"   "         \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+"   "         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"   "         \ })
+"   " autocmd Filetype tex call ncm2#register_source({
+"   "         \ 'name' : 'vimtex-labels',
+"   "         \ 'priority': 8,
+"   "         \ 'complete_length': -1,
+"   "         \ 'scope': ['tex'],
+"   "         \ 'matcher': {'name': 'combine',
+"   "         \             'matchers': [
+"   "         \               {'name': 'substr', 'key': 'word'},
+"   "         \               {'name': 'substr', 'key': 'menu'},
+"   "         \             ]},
+"   "         \ 'word_pattern': '\w+',
+"   "         \ 'complete_pattern': g:vimtex#re#ncm2#labels,
+"   "         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"   "         \ })
+"   " autocmd Filetype tex call ncm2#register_source({
+"   "         \ 'name' : 'vimtex-files',
+"   "         \ 'priority': 8,
+"   "         \ 'complete_length': -1,
+"   "         \ 'scope': ['tex'],
+"   "         \ 'matcher': {'name': 'combine',
+"   "         \             'matchers': [
+"   "         \               {'name': 'abbrfuzzy', 'key': 'word'},
+"   "         \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+"   "         \             ]},
+"   "         \ 'word_pattern': '\w+',
+"   "         \ 'complete_pattern': g:vimtex#re#ncm2#files,
+"   "         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"   "         \ })
+"   " autocmd Filetype tex call ncm2#register_source({
+"   "         \ 'name' : 'bibtex',
+"   "         \ 'priority': 8,
+"   "         \ 'complete_length': -1,
+"   "         \ 'scope': ['tex'],
+"   "         \ 'matcher': {'name': 'combine',
+"   "         \             'matchers': [
+"   "         \               {'name': 'prefix', 'key': 'word'},
+"   "         \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+"   "         \               {'name': 'abbrfuzzy', 'key': 'menu'},
+"   "         \             ]},
+"   "         \ 'word_pattern': '\w+',
+"   "         \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+"   "         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"   "         \ })
+"augroup END
 
 " snippets
 "imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -505,6 +577,5 @@ command Edesmacro tabe ~/Library/texmf/tex/latex/desmacro/desmacro.sty
 command Envimconfig tabe ~/.config/nvim/init.vim
 command Ezshconfig tabe ~/.zshrc
 command Ekaraconfig tabe ~/.config/karabiner/karabiner.json
-
 
 
