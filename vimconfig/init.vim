@@ -103,6 +103,7 @@ set tabstop=2
 set shiftwidth=2
 set smartindent
 set textwidth=0
+set statusline+=%{gutentags#statusline()}
 autocmd FileType markdown setlocal tabstop=4
 autocmd FileType markdown setlocal shiftwidth=4
 autocmd BufRead,BufNewFile *.tex set suffixesadd+=.tex
@@ -139,6 +140,12 @@ set inccommand=nosplit
 hi Normal ctermbg=NONE
 
 set nrformats=alpha,octal,hex
+set tags=tags;~,.tags;~
+set path=.,,
+set confirm 
+
+
+
 inoremap jk <Esc>
 "inoremap ze = too common
 inoremap zb %
@@ -174,8 +181,23 @@ call lexima#add_rule({'char': '\[', 'input_after': '\]', 'filetype':  'tex' })
 
 
 
-
-
+"gutentags config
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+let g:gutentags_project_root = ['.tarantula']
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+aimS',
+      \ ]
+let g:gutentags_file_list_command = {
+                              \ 'markers': {
+                                  \ '.git': 'git ls-files',
+                                  \ '.hg': 'hg locate',
+                                  \ },
+                              \ }
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
 
 "easy align
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
